@@ -23,7 +23,9 @@ var metadata = [
 			"email": {
 				"des":"邮箱"
 			}
-		}
+		},
+        "left":"300",
+        "top":"100"
 	}
 },
 {
@@ -47,7 +49,9 @@ var metadata = [
 			"email": {
 				"des":"邮箱"
 			}
-		}
+		},
+        "left":"10",
+        "top":"200"
 	}
 },
 {
@@ -71,7 +75,9 @@ var metadata = [
 			"email": {
 				"des":"邮箱"
 			}
-		}
+		},
+        "left":"100",
+        "top":"20"
 	}
 }
 ];

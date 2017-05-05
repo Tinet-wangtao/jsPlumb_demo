@@ -73,10 +73,13 @@ function setLeftMenu(list)
 function CreateModel(ui, selector)
 {
 	var modelId = $(ui.draggable).attr("id");
-	// 测试传入id
-	// console.log(modelId);
+	// 测试传入id		这是play 以及 choose
+	console.log("modelId: " + modelId);
 	var id = modelId + "_model_" + modelCounter++;
+    console.log("id: " + id);
 	var type = $(ui.draggable).attr("model_type");
+    console.log("type: " + type);
+    console.log("selector: " + selector);
 	$(selector).append('<div class="model" ondblclick="updateModel(' + modelId + ')" id="' + id 
 			+ '" modelType="'+ type +'">' 
 			+ getModelElementStr(type) + '</div>');
@@ -262,3 +265,93 @@ function removeElement(obj)
 		instance.remove(element);
 }
 
+
+//*********************************************************************************************************************************************************
+
+/**
+ *  页面刷新时进行的页面初始化
+ * @param ui
+ * @param selector
+ */
+
+
+function PageInit(list)
+{
+
+    for(var obj in list){
+        for(var tmp in list[obj]){
+            var element_str = '<li id="' + list[obj][tmp].index + '" model_type="' + tmp + '">' + list[obj][tmp].name + '</li>';
+
+
+
+            var modelId = list[obj][tmp].index;
+            // 测试传入id
+            // console.log(modelId);
+            var id = modelId + "_model_" + modelCounter++;
+            var type = list[obj][tmp].index;
+
+            var left = list[obj][tmp].left + "px";
+            var top = list[obj][tmp].top + "px";
+
+
+            console.log(list[obj][tmp].left);
+            $(container).append('<div class="model" ondblclick="updateModel(' + modelId + ')" id="' + id
+                + '" modelType="'+ type +'">'
+                + getModelElementStr(type) + '</div>');
+
+
+            // var left = left;
+            // var top = top;
+			// 这里需要注意的时，添加left这类的css样式时需要添加px后缀，不然不行的
+            $("#"+id).css("position","absolute").css("left",left).css("top",top);
+
+            //添加连接点
+            instance.addEndpoint(id, { anchors: "RightMiddle" }, hollowCircle);
+            instance.addEndpoint(id, { anchors: "LeftMiddle" }, hollowCircle);
+            instance.addEndpoint(id, { anchors: "TopCenter" }, hollowCircle);
+            instance.addEndpoint(id, { anchors: "BottomCenter" }, hollowCircle);
+            //注册实体可draggable
+            $("#" + id).draggable({
+                containment: "parent",
+                drag: function (event, ui) {
+                    instance.repaintEverything();
+                },
+                stop: function () {
+                    instance.repaintEverything();
+                }
+            });
+
+			console.log(list[obj][tmp].left);
+        }
+    }
+
+
+    // var modelId = $(ui.draggable).attr("id");
+    // // 测试传入id
+    // // console.log(modelId);
+    // var id = modelId + "_model_" + modelCounter++;
+    // var type = $(ui.draggable).attr("model_type");
+    // $(selector).append('<div class="model" ondblclick="updateModel(' + modelId + ')" id="' + id
+    //     + '" modelType="'+ type +'">'
+    //     + getModelElementStr(type) + '</div>');
+    // var left = parseInt(ui.offset.left - $(selector).offset().left);
+    // var top = parseInt(ui.offset.top - $(selector).offset().top);
+    // $("#"+id).css("position","absolute").css("left",left).css("top",top);
+    // //添加连接点
+    // instance.addEndpoint(id, { anchors: "RightMiddle" }, hollowCircle);
+    // instance.addEndpoint(id, { anchors: "LeftMiddle" }, hollowCircle);
+    // instance.addEndpoint(id, { anchors: "TopCenter" }, hollowCircle);
+    // instance.addEndpoint(id, { anchors: "BottomCenter" }, hollowCircle);
+    // //注册实体可draggable
+    // $("#" + id).draggable({
+    //     containment: "parent",
+    //     drag: function (event, ui) {
+    //         instance.repaintEverything();
+    //     },
+    //     stop: function () {
+    //         instance.repaintEverything();
+    //     }
+    // });
+
+
+}

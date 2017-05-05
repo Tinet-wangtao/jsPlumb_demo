@@ -14,6 +14,7 @@
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 		setLeftMenu(metadata);
+        window.onload = PageInit(metadata);
 		//监听新的连接
 		instance.bind("connection", function (connInfo, originalEvent) {
 	            init(connInfo.connection);
