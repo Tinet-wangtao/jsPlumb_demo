@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>location</title>
+
+    <style>
+        #div1{width:100px ; height:100px ; position:absolute;background:red;}
+    </style>
+    <script>
+        function setcookie(name,value,iDay)                        //设置cookie
+        {var oDate=new Date();
+        oDate.setDate(oDate.getDate()+iDay);
+        document.cookie=name+'='+value+';exprise='+oDate;};
+
+        function getcookie(name)                                  //获取cookie
+        {vararr=document.cookie.split(';');
+            var i=0;
+            for(i=0;i<arr.length;i++)
+            {vararr2=arr[i].split('=');
+                if(arr2[0]==name)
+                {return arr2[1];}}
+            return'';}
+        function removecookie(name)                              //删除cookie
+        {setcookie(name,'1',-1);}                         //cookie封装
+
+        window.onload=function()                             //页面加载执行
+        { var oDiv=document.getElementById("div1");
+            vardisX=0;                                      //定义两个变量存储鼠标与div坐标的相对距离
+            var disY=0;
+            oDiv.onmousedown=function(ev)                    //鼠标按下执行
+            { var oEvent=ev||event;
+                disX=oEvent.clientX-oDiv.offsetLeft;           //存储初始距离
+                disY=oEvent.clientY-oDiv.offsetTop;
+                document.onmousemove=function(ev)         //因为“按下+移动”所以该事件发生在down事件之内
+                {var oEvent=ev||event;
+                    var l=oEvent.clientX-disX;          //l、t变量为div的当前坐标，判断l、t让div不出可视区
+                    var t=oEvent.clientY-disY;
+                    if(l<0)
+                    {l=0;}
+                    else if(l>document.documentElement.clientWidth-oDiv.offsetWidth)
+                    //clientWidth整个可视区文档的宽度、offsetWidth为div本身的宽度
+                    {l=document.documentElement.clientWidth-oDiv.offsetWidth;}
+                    if(t<0)
+                    {t=0;}
+                    else if(t>document.documentElement.clientHeight-oDiv.offsetHeight)
+                    {t=document.documentElement.clientHeight-oDiv.offsetHeight;}
+                    oDiv.style.left=l+'px';         //把计算的当前值赋给oDiv
+                    oDiv.style.top=t+'px';
+                }
+                document.onmouseup=function()      //鼠标弹起时触发
+                {document.onmouseover=null;
+                    document.onmouseup=null;
+                    setcookie('x',oDiv.offsetLeft,5);
+                    setcookie ('y',oDiv.offsetTop,5); //调用cookie，setcookie函数
+                }
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <div id="div1"></div>
+</body>
+</html>

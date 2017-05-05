@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>location2</title>
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            $("div.containment-wrapper").draggable();
+        });
+
+        function setObjectInitPos(selector)
+        {
+            var cookies = getCookies();
+            $(selector).each(function(){
+                var left = parseFloat(cookies[$(this).attr("id")+"_Left"]);
+                var top = parseFloat(cookies[$(this).attr("id")+"_Top"]);
+                if(!isNaN(left))
+                    $(this).css("left", left + "px");
+                if(!isNaN(top))
+                    $(this).css("top", top + "px");
+            });
+            $(selector).draggable({
+                start:function(){},
+                drag:function(){},
+                stop:function(){
+                    setCookie($(this).attr("id")+"_Left", $(this).css("left").replace("px",""),365);
+                    setCookie($(this).attr("id")+"_Top", $(this).css("top").replace("px",""),365);
+                }
+            });
+        }
+
+        function setCookie(name, value, daysToLive) {
+            var cookie = name + "=" + encodeURIComponent(value);
+            if (typeof daysToLive === "number")
+                cookie += "; max-age=" + (daysToLive*60*60*24);
+            document.cookie = cookie;
+        }
+
+        function getCookies() {
+            var cookies = {};
+            var all = document.cookie;
+            if (all === "")
+                return cookies;
+            var list = all.split("; ");
+            for(var i = 0; i < list.length; i++) {
+                var cookie = list[i];
+                var p = cookie.indexOf("=");
+                var name = cookie.substring(0,p);
+                var value = cookie.substring(p+1);
+                value = decodeURIComponent(value);
+                cookies[name] = value;
+            }
+            return cookies;
+        }
+    </script>
+
+</head>
+<body>
+
+    <div id="div1" style="position:absolute;border:1px solid green;width:200px;height:30px;left:0px;top:0px;">
+        <img src="https://www.baidu.com/img/bdlogo.png" style="width:200px;height:30px;" />
+    </div>
+    <div id="div2" style="position:absolute;border:1px solid green;width:200px;height:30px;left:0px;top:40px;">
+        <img src="https://www.baidu.com/img/bdlogo.png" style="width:200px;height:30px;" />
+    </div>
+    <div id="div3" style="position:absolute;border:1px solid green;width:200px;height:30px;left:0px;top:80px;">
+        <img src="https://www.baidu.com/img/bdlogo.png" style="width:200px;height:30px;" />
+    </div>
+
+</body>
+</html>
