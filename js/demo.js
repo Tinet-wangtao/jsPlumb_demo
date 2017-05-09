@@ -353,5 +353,27 @@ function PageInit(list)
     //     }
     // });
 
+    saveJson();
 
 }
+
+
+// 以下为测试数据保存方法
+
+function saveJson() {
+    var fso = new ActiveXObject("Scripting.FileSystemObject");
+    var file = fso.createtextfile("D:\WT\Github_Demo\jsPlumb_demo\js\metadata.js", 2, false);
+    file.writeln("hi");
+
+    file.close();
+
+}
+
+
+
+
+
+
+
+
+
